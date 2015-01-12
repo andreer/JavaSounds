@@ -2,14 +2,16 @@ package no.andreer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
 public class Scope extends JPanel {
 
     private BufferedImage image = new BufferedImage(400, 256, BufferedImage.TYPE_INT_RGB);
+    private final JFrame jframe;
 
     Scope() {
-        JFrame jframe = new JFrame();
+        jframe = new JFrame();
         jframe.add(this);
         jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jframe.setSize(450, 320);
@@ -30,5 +32,9 @@ public class Scope extends JPanel {
         }
         image.flush();
         this.repaint();
+    }
+
+    public void close() {
+        jframe.dispatchEvent(new WindowEvent(jframe, WindowEvent.WINDOW_CLOSING));
     }
 }

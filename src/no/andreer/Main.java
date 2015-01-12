@@ -90,5 +90,7 @@ public class Main {
         sdl.drain();
         sdl.stop();
         sdl.close();
+
+        scope.close();
     }
 }
