@@ -13,7 +13,7 @@ public class SineWaveFloat implements Source {
     public byte[] next(int size) {
         byte[] sample = new byte[size];
         for (int i = 0; i < size; i++) {
-            sample[i] = 0;
+            sample[ i ] = 0;
         }
         return sample;
     }
