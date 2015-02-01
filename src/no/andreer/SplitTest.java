@@ -2,21 +2,14 @@ package no.andreer;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 public class SplitTest {
 
     @Test
     public void testNext() throws Exception {
-        Split split = new Split(new Sequencer(1, new Constant((byte) 1), new Constant((byte) 2)));
+        // map from (-1, 1) -> (0 -> 20_000)
 
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
-        System.out.println(Arrays.toString(split.next(1)));
+        double input = 0;
+
+        double tmp = (input + 1.0) * 10000;
     }
 }

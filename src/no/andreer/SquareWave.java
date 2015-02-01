@@ -7,11 +7,17 @@ public class SquareWave implements Source {
     int period;
     int n;
     int amplitude;
+    AudioFormat af;
 
     public SquareWave(AudioFormat audioFormat, int frequency, int amplitude) {
         this.frequency = frequency;
-        this.period = (int) audioFormat.getSampleRate() / frequency;
+        this.af = audioFormat;
+        setFrequency(frequency);
         this.amplitude = amplitude;
+    }
+
+    public void setFrequency(int frequency) {
+        this.period = (int) af.getSampleRate() / frequency;
     }
 
     public byte[] next(int size) {
