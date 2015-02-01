@@ -5,6 +5,8 @@ import javax.sound.sampled.AudioFormat;
 public class SineWaveFloat implements Source {
     AudioFormat af;
     double angle = 0d;
+    private double frequency;
+    private double v;
 
     public SineWaveFloat(AudioFormat audioFormat, Source frequencySource) {
         this.af = audioFormat;
@@ -21,11 +23,12 @@ public class SineWaveFloat implements Source {
     public double foo() {
         double sin = Math.sin(angle);
 
-        double frequency = 441.3;
-
-        double v = (frequency * 2.0 * Math.PI) / af.getSampleRate();
         angle += v;
 
         return sin;
+    }
+
+    public void setFrequency(double frequency) {
+        v = (frequency * 2.0 * Math.PI) / af.getSampleRate();
     }
 }
