@@ -1,6 +1,6 @@
 package no.andreer.bleep;
 
-public class DoubleGain {
+public class DoubleGain implements Input {
 
     final DoubleNoise input;
     double gain;
@@ -10,6 +10,7 @@ public class DoubleGain {
         this.gain = gain;
     }
 
+    @Override
     public double foo() {
         return input.foo() * gain;
     }

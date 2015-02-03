@@ -4,7 +4,7 @@ import no.andreer.Source;
 
 import javax.sound.sampled.AudioFormat;
 
-public class SineWaveFloat implements Source {
+public class SineWaveFloat implements Source, Input {
     AudioFormat af;
     double angle = 0d;
     private double frequency;
@@ -22,6 +22,7 @@ public class SineWaveFloat implements Source {
         return sample;
     }
 
+    @Override
     public double foo() {
         double sin = Math.sin(angle);
 
