@@ -1,4 +1,4 @@
-package no.andreer;
+package no.andreer.bleep;
 
 import java.util.Random;
 

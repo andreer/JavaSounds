@@ -1,4 +1,6 @@
-package no.andreer;
+package no.andreer.bleep;
+
+import no.andreer.Source;
 
 import javax.sound.sampled.AudioFormat;
 
