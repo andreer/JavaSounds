@@ -1,11 +1,11 @@
 package no.andreer.bleep;
 
-public class DoubleGain implements Input {
+public class Gain implements Input {
 
-    final DoubleNoise input;
+    final Noise input;
     double gain;
 
-    public DoubleGain(DoubleNoise input, double gain) {
+    public Gain(Noise input, double gain) {
         this.input = input;
         this.gain = gain;
     }

@@ -2,7 +2,7 @@ package no.andreer.bleep;
 
 import java.util.Random;
 
-public class DoubleNoise implements Input {
+public class Noise implements Input {
 
     Random random = new Random();
 

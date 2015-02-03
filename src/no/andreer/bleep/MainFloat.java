@@ -30,9 +30,9 @@ public class MainFloat {
 
         int sampleSize = 400; // ~1ms
 
-        SineWaveFloat sin = new SineWaveFloat(af, new Constant((byte) 127));
+        SineWave sin = new SineWave(af, new Constant((byte) 127));
 
-        DoubleGain ditheringNoise = new DoubleGain(new DoubleNoise(), 0.001);
+        Gain ditheringNoise = new Gain(new Noise(), 0.001);
 
         MyMidiDeviceReceiver receiver = new MyMidiDeviceReceiver();
         MidiSystem.getTransmitter().setReceiver(receiver);

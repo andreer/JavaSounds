@@ -4,13 +4,13 @@ import no.andreer.Source;
 
 import javax.sound.sampled.AudioFormat;
 
-public class SineWaveFloat implements Source, Input {
+public class SineWave implements Source, Input {
     AudioFormat af;
     double angle = 0d;
     private double frequency;
     private double v;
 
-    public SineWaveFloat(AudioFormat audioFormat, Source frequencySource) {
+    public SineWave(AudioFormat audioFormat, Source frequencySource) {
         this.af = audioFormat;
     }
 
