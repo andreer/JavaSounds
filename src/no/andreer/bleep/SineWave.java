@@ -23,7 +23,7 @@ public class SineWave implements Source, Input {
     }
 
     @Override
-    public double foo() {
+    public double sample() {
         double sin = Math.sin(angle);
 
         angle += v;

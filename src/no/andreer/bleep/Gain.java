@@ -11,7 +11,7 @@ public class Gain implements Input {
     }
 
     @Override
-    public double foo() {
-        return input.foo() * gain;
+    public double sample() {
+        return input.sample() * gain;
     }
 }

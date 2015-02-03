@@ -46,7 +46,7 @@ public class MainFloat {
                 } else {
                     sin.setFrequency(tone(receiver.currentNote));
                 }
-                double foo = sin.foo();// + ditheringNoise.foo();
+                double foo = sin.sample();// + ditheringNoise.sample();
 
                 int value = (int) (foo * Short.MAX_VALUE);
                 if (value > Short.MAX_VALUE) {

@@ -7,7 +7,7 @@ public class Noise implements Input {
     Random random = new Random();
 
     @Override
-    public double foo() {
+    public double sample() {
         return (random.nextDouble() * 2)-1;
     }
 }
