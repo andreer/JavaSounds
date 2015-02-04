@@ -30,23 +30,23 @@ public class MainFloat {
 
         int sampleSize = 400; // ~1ms
 
-        SquareWave sin = new SquareWave(af, 441.3d);
+        SquareWave sin2 = new SquareWave(af, 441.3d);
 
-        Gain ditheringNoise = new Gain(new Noise(), 0.001);
+        Gain sin = new Gain(new Noise(), ()->0.5);
 
         MyMidiDeviceReceiver receiver = new MyMidiDeviceReceiver();
         MidiSystem.getTransmitter().setReceiver(receiver);
 
-        MovingAverageFilter filter = new MovingAverageFilter(sin, vol);
+        MovingAverageFilter filter = new MovingAverageFilter(sin, new Gain(vol, ()->3.0));
 
         ByteBuffer b = ByteBuffer.allocate(Short.BYTES * sampleSize);
         while (true) {
             for (int j = 0; j < sampleSize; j++) {
 
                 if (receiver.currentNote == -1) {
-                    sin.setFrequency(0.001); //silence..?
+                    sin2.setFrequency(0.001); //silence..?
                 } else {
-                    sin.setFrequency(tone(receiver.currentNote));
+                    sin2.setFrequency(tone(receiver.currentNote));
                 }
                 double foo = filter.sample();// + ditheringNoise.sample();
 
