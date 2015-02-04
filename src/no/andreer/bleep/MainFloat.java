@@ -1,7 +1,5 @@
 package no.andreer.bleep;
 
-import no.andreer.Constant;
-
 import javax.sound.midi.*;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -15,12 +13,14 @@ public class MainFloat {
     static double twlft_2 = 1.059463;
     private static int NOTE_ON_CHANNEL_0;
 
+    static CC vol = new CC();
+
     public static double tone(double n) {
         return (440.0 / 64) * Math.pow(twlft_2, n);
     }
 
     public static void main(String[] args) throws LineUnavailableException, MidiUnavailableException, InterruptedException {
-        int sampleRate = 48000;
+        int sampleRate = 192000;
         AudioFormat af = new AudioFormat(sampleRate, 16, 1, true, true);
 
         SourceDataLine sdl = AudioSystem.getSourceDataLine(af);
@@ -30,23 +30,25 @@ public class MainFloat {
 
         int sampleSize = 400; // ~1ms
 
-        SineWave sin = new SineWave(af, new Constant((byte) 127));
+        SquareWave sin = new SquareWave(af, 441.3d);
 
         Gain ditheringNoise = new Gain(new Noise(), 0.001);
 
         MyMidiDeviceReceiver receiver = new MyMidiDeviceReceiver();
         MidiSystem.getTransmitter().setReceiver(receiver);
 
+        MovingAverageFilter filter = new MovingAverageFilter(sin, vol);
+
         ByteBuffer b = ByteBuffer.allocate(Short.BYTES * sampleSize);
         while (true) {
             for (int j = 0; j < sampleSize; j++) {
 
-                if(receiver.currentNote == -1) {
+                if (receiver.currentNote == -1) {
                     sin.setFrequency(0.001); //silence..?
                 } else {
                     sin.setFrequency(tone(receiver.currentNote));
                 }
-                double foo = sin.sample();// + ditheringNoise.sample();
+                double foo = filter.sample();// + ditheringNoise.sample();
 
                 int value = (int) (foo * Short.MAX_VALUE);
                 if (value > Short.MAX_VALUE) {
@@ -62,7 +64,7 @@ public class MainFloat {
             int offset = 0;
             sdl.write(b.array(), offset, b.limit());
             b.clear();
-            if(1 > 2) {
+            if (1 > 2) {
                 break;
             }
         }
@@ -94,25 +96,32 @@ public class MainFloat {
         @Override
         public void send(MidiMessage message, long timeStamp) {
             NOTE_ON_CHANNEL_0 = 0x90;
+            if (message.getLength() < 3) {
+                System.err.println("unexpected size message: " + DatatypeConverter.printHexBinary(message.getMessage()));
+            }
             if (message.getStatus() == NOTE_ON_CHANNEL_0) {
-                if (message.getLength() < 3) {
-                    System.err.println("unexpected size message: " + DatatypeConverter.printHexBinary(message.getMessage()));
-                } else {
-                    byte[] bytes = message.getMessage();
-                    byte note = bytes[1];
-                    byte velocity = bytes[2];
+                byte[] bytes = message.getMessage();
+                byte note = bytes[1];
+                byte velocity = bytes[2];
 
-                    switch (velocity) {
-                        case 0:
-                            if (note == currentNote)
-                                currentNote = -1;
-                            break;
-                        default:
-                            currentNote = note;
-                    }
-
-                    System.err.println("note = " + note + ", velocity = " + velocity);
+                switch (velocity) {
+                    case 0:
+                        if (note == currentNote)
+                            currentNote = -1;
+                        break;
+                    default:
+                        currentNote = note;
                 }
+
+                System.err.println("note = " + note + ", velocity = " + velocity);
+            } else if (message.getStatus() == 0xB0) {
+                byte[] bytes = message.getMessage();
+                byte value = bytes[2];
+
+                vol.value = value;
+
+                System.out.println("value = " + value);
+
             } else {
                 System.err.println("Unknown midi message: " + DatatypeConverter.printHexBinary(message.getMessage()));
             }
